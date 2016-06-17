@@ -1,0 +1,12 @@
+{application, rebar3_jorel,
+ [{description, "Generate release with jorel"}
+  ,{vsn, "0.0.1"}
+  ,{registered, []}
+  ,{applications, [kernel, stdlib]}
+  ,{env,[]}
+  ,{modules, []}
+
+  ,{maintainers, ["Gregoire Lejeune"]}
+  ,{licenses, ["BSD-3"]}
+  ,{links, [{"Github", "https://github.com/emedia-project/rebar3_jorel"}]}
+ ]}.
