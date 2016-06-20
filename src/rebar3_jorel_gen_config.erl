@@ -9,6 +9,8 @@
 -define(PROVIDER, gen_config).
 -define(DEPS, [{default, compile}]).
 
+-define(JOREL_CONFIG, "jorel.config").
+
 -spec init(rebar_state:t()) -> {ok, rebar_state:t()}.
 init(State) ->
   {ok, rebar_state:add_provider(
@@ -23,14 +25,21 @@ init(State) ->
             {short_desc, "Generate a configuration file for Jorel"},
             {desc, "Generate a configuration file for Jorel."},
             {opts, [
-                    {output, $o, "output", undefined, "Output file (default : jorel.config)"}
+                    {force, $f, "force", undefined, "Force rewrite jorel.config (default : false)"}
                    ]
             }]))}.
 
 -spec do(rebar_state:t()) -> {ok, rebar_state:t()} | {error, string()}.
 do(State) ->
-  Dir = rebar_state:dir(State),
-  rebar_api:info("---> ~p", [Dir]),
+  {Args, _} = rebar_state:command_parsed_args(State),
+  Force = proplists:get_value(force, Args, false),
+
+  case (not filelib:is_file(?JOREL_CONFIG)) orelse Force of
+    true ->
+      rebar3_jorel_utils:jorel_config(State);
+    false ->
+      rebar_api:warn("~s exist. (use --force to override)", [?JOREL_CONFIG])
+  end,
   {ok, State}.
 
 -spec format_error(any()) -> iolist().
