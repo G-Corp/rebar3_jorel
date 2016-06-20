@@ -24,13 +24,23 @@ init(State) ->
             {example, "rebar3 exec providers"},
             {short_desc, "Execute a specific Jorel command"},
             {desc, "Execute a specific Jorel command."},
-            {opts, []}
+            {opts, [
+                    {upgrade, $u, "upgrade", undefined, "Upgrade jorel (default : false)"},
+                    {master, $M, "master", undefined, "Use jorel master (default : false)"}
+                   ]}
            ]))}.
 
 -spec do(rebar_state:t()) -> {ok, rebar_state:t()} | {error, string()}.
 do(State) ->
-  Args = rebar_state:command_args(State),
-  rebar_api:warn("===> ~p ", [Args]),
+  Args = lists:delete("--", rebar_state:command_args(State)),
+  {Args, _} = rebar_state:command_parsed_args(State),
+  Upgrade = proplists:get_value(upgrade, Args, false),
+  Master = proplists:get_value(master, Args, false),
+  JorelApp = rebar3_jorel_utils:jorel_app(Master, Upgrade),
+  Cmd = string:join([JorelApp|Args], " "),
+  rebar_api:info("Execute ~s", [Cmd]),
+  rebar_utils:sh(Cmd,
+                 [use_stdout, {cd, rebar_state:dir(State)}, {abort_on_error, "Jorel faild"}]),
   {ok, State}.
 
 -spec format_error(any()) -> iolist().
