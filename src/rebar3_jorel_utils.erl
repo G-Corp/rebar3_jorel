@@ -1,6 +1,6 @@
 -module(rebar3_jorel_utils).
 
--export([jorel_app/2, jorel_config/1]).
+-export([jorel_app/2, jorel_config/1, jorel_cmd/2]).
 
 -define(JOREL_APP, bucfile:expand_path("~/.jorel/jorel")).
 -define(JOREL_APP_MASTER, bucfile:expand_path("~/.jorel/jorel.master")).
@@ -55,4 +55,30 @@ jorel_config(State) ->
                     end, Config),
       ?JOREL_CONFIG
   end.
+
+jorel_cmd(State, Command) ->
+  {Args, _} = rebar_state:command_parsed_args(State),
+  Upgrade = proplists:get_value(upgrade, Args, false),
+  Master = proplists:get_value(master, Args, false),
+  Force = proplists:get_value(force, Args, false),
+
+  JorelApp = rebar3_jorel_utils:jorel_app(Master, Upgrade),
+
+  KeepConfig = filelib:is_file(?JOREL_CONFIG),
+  JorelConfig = case (not KeepConfig) orelse Force of
+                  true ->
+                    rebar3_jorel_utils:jorel_config(State);
+                  false ->
+                    rebar_api:warn("~s exist, use it. (use --force to override)", [?JOREL_CONFIG]),
+                    ?JOREL_CONFIG
+                end,
+  rebar_api:info("Execute ~s", [JorelApp]),
+  Cmd = string:join([JorelApp|Command], " "),
+  rebar_utils:sh(Cmd,
+                 [use_stdout, {cd, rebar_state:dir(State)}, {abort_on_error, "Jorel faild"}]),
+  if
+    KeepConfig -> ok;
+    true -> file:delete(JorelConfig)
+  end,
+  {ok, State}.
 
