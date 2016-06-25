@@ -39,7 +39,7 @@ do(State) ->
   Cmd = string:join([JorelApp|Args2], " "),
   rebar_api:info("Execute ~s", [Cmd]),
   rebar_utils:sh(Cmd,
-                 [use_stdout, {cd, rebar_state:dir(State)}, {abort_on_error, "Jorel faild"}]),
+                 [use_stdout, {cd, rebar_state:dir(State)}, {abort_on_error, "Jorel failed"}]),
   {ok, State}.
 
 -spec format_error(any()) -> iolist().

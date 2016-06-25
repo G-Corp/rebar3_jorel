@@ -35,7 +35,7 @@ jorel_app(Master, Upgrade) ->
           end,
           file:change_mode(JorelApp, 8#00755);
         _ ->
-          rebar_api:abort("Faild to download Jorel!", [])
+          rebar_api:abort("Failed to download Jorel!", [])
       end;
     false ->
       ok
@@ -75,7 +75,7 @@ jorel_cmd(State, Command) ->
   rebar_api:info("Execute ~s", [JorelApp]),
   Cmd = string:join([JorelApp|Command], " "),
   rebar_utils:sh(Cmd,
-                 [use_stdout, {cd, rebar_state:dir(State)}, {abort_on_error, "Jorel faild"}]),
+                 [use_stdout, {cd, rebar_state:dir(State)}, {abort_on_error, "Jorel failed"}]),
   if
     KeepConfig -> ok;
     true -> file:delete(JorelConfig)
