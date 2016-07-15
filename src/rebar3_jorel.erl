@@ -4,6 +4,9 @@
 
 init(State) ->
   lists:foldl(fun provider_init/2, {ok, State}, [rebar3_jorel_release
+                                                 , rebar3_jorel_appup
+                                                 , rebar3_jorel_relup
+                                                 , rebar3_jorel_archive
                                                  , rebar3_jorel_gen_config
                                                  , rebar3_jorel_exec]).
 
