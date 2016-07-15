@@ -26,7 +26,7 @@ jorel_app(Master, Upgrade) ->
       inets:start(),
       case check(JorelApp, JorelMD5URL) of
         true -> 
-          todo;
+          rebar_api:info("~s is up to date.", [JorelApp]);
         false ->
           case httpc:request(get, {JorelURL, []}, [{autoredirect, true}], []) of
             {ok, {{_, 200, _}, _, Body}} ->
@@ -84,7 +84,7 @@ jorel_cmd(State, Command) ->
                     ?JOREL_CONFIG
                 end,
   rebar_api:info("Execute ~s", [JorelApp]),
-  Cmd = string:join([JorelApp|Command], " "),
+  Cmd = string:join([JorelApp, Command], " "),
   rebar_utils:sh(Cmd,
                  [use_stdout, {cd, rebar_state:dir(State)}, {abort_on_error, "Jorel failed"}]),
   if
