@@ -21,7 +21,7 @@ init(State) ->
             {namespace, jorel},
             {bare, true},
             {deps, ?DEPS},
-            {example, "rebar3 exec providers"},
+            {example, "rebar3 exec provider"},
             {short_desc, "Execute a specific Jorel command"},
             {desc, "Execute a specific Jorel command."},
             {opts, [
