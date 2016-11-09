@@ -1,5 +1,5 @@
 {application, rebar3_jorel,
- [{description, "Generate release with jorel"}
+ [{description, "rebar3 plugin for jorel"}
   ,{vsn, "0.0.1"}
   ,{registered, []}
   ,{applications, [kernel, stdlib]}
@@ -8,5 +8,8 @@
 
   ,{maintainers, ["Gregoire Lejeune"]}
   ,{licenses, ["BSD-3"]}
-  ,{links, [{"Github", "https://github.com/emedia-project/rebar3_jorel"}]}
+  ,{links, [
+            {"Github", "https://github.com/emedia-project/rebar3_jorel"},
+            {"Jorel", "http://jorel.in"}
+           ]}
  ]}.
