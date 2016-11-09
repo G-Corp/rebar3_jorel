@@ -1,5 +1,5 @@
 {application, rebar3_jorel,
- [{description, "rebar3 plugin for jorel"}
+ [{description, "jorel plugin for rebar3"}
   ,{vsn, "0.0.1"}
   ,{registered, []}
   ,{applications, [kernel, stdlib]}
