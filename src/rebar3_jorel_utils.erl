@@ -4,10 +4,10 @@
 
 -define(JOREL_APP, bucfile:expand_path("~/.jorel/jorel")).
 -define(JOREL_APP_MASTER, bucfile:expand_path("~/.jorel/jorel.master")).
--define(JOREL_URL, "https://github.com/emedia-project/jorel/wiki/jorel").
--define(JOREL_MD5_URL, "https://github.com/emedia-project/jorel/wiki/jorel.md5").
--define(JOREL_MASTER_URL, "https://github.com/emedia-project/jorel/wiki/jorel.master").
--define(JOREL_MASTER_MD5_URL, "https://github.com/emedia-project/jorel/wiki/jorel.master.md5").
+-define(JOREL_URL, "https://github.com/G-Corp/jorel/wiki/jorel").
+-define(JOREL_MD5_URL, "https://github.com/G-Corp/jorel/wiki/jorel.md5").
+-define(JOREL_MASTER_URL, "https://github.com/G-Corp/jorel/wiki/jorel.master").
+-define(JOREL_MASTER_MD5_URL, "https://github.com/G-Corp/jorel/wiki/jorel.master.md5").
 -define(JOREL_CONFIG, "jorel.config").
 
 jorel_app(Master, Upgrade) ->
@@ -25,7 +25,7 @@ jorel_app(Master, Upgrade) ->
       ssl:start(),
       inets:start(),
       case check(JorelApp, JorelMD5URL) of
-        true -> 
+        true ->
           rebar_api:info("~s is up to date.", [JorelApp]);
         false ->
           case httpc:request(get, {JorelURL, []}, [{autoredirect, true}], []) of
@@ -38,7 +38,7 @@ jorel_app(Master, Upgrade) ->
                   ok
               end,
               case file:write_file(JorelApp, Body) of
-                ok -> 
+                ok ->
                   ok;
                 {error, Reason} ->
                   rebar_api:abort("Can't save ~s: ~p", [JorelApp, Reason])
