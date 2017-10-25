@@ -2,8 +2,8 @@
 
 -export([jorel_app/2, jorel_config/1, jorel_cmd/2]).
 
--define(JOREL_APP, bucfile:expand_path("~/.jorel/jorel")).
--define(JOREL_APP_MASTER, bucfile:expand_path("~/.jorel/jorel.master")).
+-define(JOREL_APP, bucfile:expand_path("~/.cache/jorel/bin/jorel")).
+-define(JOREL_APP_MASTER, bucfile:expand_path("~/.cache/jorel/bin/jorel.master")).
 -define(JOREL_URL, "https://github.com/G-Corp/jorel/wiki/jorel").
 -define(JOREL_MD5_URL, "https://github.com/G-Corp/jorel/wiki/jorel.md5").
 -define(JOREL_MASTER_URL, "https://github.com/G-Corp/jorel/wiki/jorel.master").
